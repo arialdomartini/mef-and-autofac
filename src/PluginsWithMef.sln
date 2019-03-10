@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginsWithMef", "PluginsWithMef\PluginsWithMef.csproj", "{7D46D0E0-753B-4EE0-9E28-1A7916112F47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginsWithMefTest", "PluginsWithMefTest\PluginsWithMefTest.csproj", "{53FA9E40-A91C-494B-B140-2D722CD7A771}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D46D0E0-753B-4EE0-9E28-1A7916112F47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D46D0E0-753B-4EE0-9E28-1A7916112F47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D46D0E0-753B-4EE0-9E28-1A7916112F47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D46D0E0-753B-4EE0-9E28-1A7916112F47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53FA9E40-A91C-494B-B140-2D722CD7A771}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53FA9E40-A91C-494B-B140-2D722CD7A771}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53FA9E40-A91C-494B-B140-2D722CD7A771}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53FA9E40-A91C-494B-B140-2D722CD7A771}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
