@@ -15,7 +15,7 @@ namespace PluginsWithMefTest
 
                 var result = baseHost.SomeOperation();
 
-                result.Should().Contain("plugin1");
+                result.Should().Contain("plugin1 + string provided by base");
                 result.Should().Contain("plugin2");
             }
         }

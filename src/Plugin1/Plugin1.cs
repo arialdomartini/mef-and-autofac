@@ -6,7 +6,14 @@ namespace Plugin1
 {
     public class Plugin1 : IPlugin
     {
-        public string SomeOperation => "plugin1";
+        private BaseCollaborator _baseCollaborator;
+
+        public Plugin1(BaseCollaborator baseCollaborator)
+        {
+            _baseCollaborator = baseCollaborator;
+        }
+
+        public string SomeOperation => $"plugin1 + {_baseCollaborator.GetString()}";
     }
 
     [Export(typeof(IModuleFactory))]

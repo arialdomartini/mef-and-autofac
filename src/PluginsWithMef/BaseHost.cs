@@ -37,6 +37,8 @@ namespace PluginsWithMef
 
             var builder = new ContainerBuilder();
 
+            builder.RegisterModule<BaseModule>();
+
             foreach (var moduleFactory in _moduleFactories)
             {
                 builder.RegisterModule(moduleFactory.GetModule());
@@ -50,6 +52,19 @@ namespace PluginsWithMef
             //_scope.Dispose();
 //            _container.Dispose();
         }
+    }
+
+    public class BaseModule : Module
+    {
+        protected override void Load(ContainerBuilder builder)
+        {
+            builder.RegisterType<BaseCollaborator>();
+        }
+    }
+
+    public class BaseCollaborator
+    {
+        public string GetString() => "string provided by base";
     }
 
     public interface IPlugin
