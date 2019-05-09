@@ -8,7 +8,6 @@ namespace PluginsWithMef
     {
         [Import(typeof(IPlugin))] private IPlugin _plugin;
 
-
         public string SomeOperation()
         {
             if (_plugin == null)
@@ -18,10 +17,11 @@ namespace PluginsWithMef
 
         public void LoadPlugins()
         {
-            new CompositionContainer(
-                    new AssemblyCatalog(
-                        Assembly.GetExecutingAssembly()))
-                .ComposeParts(this);
+            var catalog = new AggregateCatalog();
+            //catalog.Catalogs.Add(new AssemblyCatalog(typeof(BaseHost).Assembly));
+            catalog.Catalogs.Add(new DirectoryCatalog(@"..\..\..\..\Plugin1\bin\Debug\netcoreapp2.0\"));
+            var container = new CompositionContainer(catalog);
+            container.ComposeParts(this);
         }
     }
 
