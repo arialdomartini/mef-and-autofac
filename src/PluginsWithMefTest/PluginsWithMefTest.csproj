@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Plugin1\Plugin1.csproj" />
       <ProjectReference Include="..\PluginsWithMef\PluginsWithMef.csproj" />
     </ItemGroup>
 
