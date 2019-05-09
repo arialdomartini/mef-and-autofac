@@ -4,7 +4,7 @@ using Xunit;
 
 namespace PluginsWithMefTest
 {
-    public class PluginTest
+    public class Plugin1Test
     {
         [Fact]
         public void returns_a_string()

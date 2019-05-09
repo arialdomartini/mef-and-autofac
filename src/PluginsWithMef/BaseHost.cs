@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using System.ComponentModel.Composition.Primitives;
 using System.Linq;
 using Autofac;
+using PluginsWithMef.IoC;
 
 namespace PluginsWithMef
 {
@@ -15,60 +17,54 @@ namespace PluginsWithMef
     public class BaseHost : IDisposable
     {
         private IContainer _container;
-        private ILifetimeScope _scope;
 
-        [ImportMany(typeof(IModuleFactory))]
-        private IEnumerable<IModuleFactory> _moduleFactories;
+        [ImportMany(typeof(IModuleFactory))] private IEnumerable<IModuleFactory> _moduleFactories;
+
+        private static IEnumerable<ComposablePartCatalog> Catalogs =>
+            new[]
+            {
+                new DirectoryCatalog(@"..\..\..\..\Plugin1\bin\Debug\netcoreapp2.0\"),
+                new DirectoryCatalog(@"..\..\..\..\Plugin2\bin\Debug\netcoreapp2.0\")
+            };
+
+        public void Dispose()
+        {
+            _container.Dispose();
+        }
 
         public string SomeOperation()
         {
-            var plugins = _scope.Resolve<IEnumerable<IPlugin>>();
-            return string.Join("+", plugins.Select(p => p.SomeOperation));
+            using (var scope = _container.BeginLifetimeScope())
+            {
+                var plugins = scope.Resolve<IEnumerable<IPlugin>>();
+                return string.Join("+", plugins.Select(p => p.SomeOperation));
+            }
         }
 
         public void LoadPlugins()
         {
-            var catalog = new AggregateCatalog();
+            var moduleFactories = LoadMef();
 
-            catalog.Catalogs.Add(new DirectoryCatalog(@"..\..\..\..\Plugin1\bin\Debug\netcoreapp2.0\"));
-            catalog.Catalogs.Add(new DirectoryCatalog(@"..\..\..\..\Plugin2\bin\Debug\netcoreapp2.0\"));
+            _container = BuildContainer(moduleFactories);
+        }
 
-            new CompositionContainer(catalog).ComposeParts(this);
-
+        private IContainer BuildContainer(IEnumerable<IModuleFactory> moduleFactories)
+        {
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<BaseModule>();
 
-            foreach (var moduleFactory in _moduleFactories)
-            {
-                builder.RegisterModule(moduleFactory.GetModule());
-            }
-            _container = builder.Build();
-            _scope = _container.BeginLifetimeScope();
+            foreach (var moduleFactory in moduleFactories) builder.RegisterModule(moduleFactory.GetModule());
+
+            return builder.Build();
         }
 
-        public void Dispose()
+        private IEnumerable<IModuleFactory> LoadMef()
         {
-            //_scope.Dispose();
-//            _container.Dispose();
+            var catalog = new AggregateCatalog();
+            catalog.Catalogs.Add(new AggregateCatalog(Catalogs));
+            new CompositionContainer(catalog).ComposeParts(this);
+            return _moduleFactories;
         }
-    }
-
-    public class BaseModule : Module
-    {
-        protected override void Load(ContainerBuilder builder)
-        {
-            builder.RegisterType<BaseCollaborator>();
-        }
-    }
-
-    public class BaseCollaborator
-    {
-        public string GetString() => "string provided by base";
-    }
-
-    public interface IPlugin
-    {
-        string SomeOperation { get; }
     }
 }

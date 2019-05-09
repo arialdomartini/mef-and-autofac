@@ -7,7 +7,7 @@ namespace PluginsWithMefTest
     public class BaseHostTest
     {
         [Fact]
-        public void with_plugins()
+        public void should_use_all_the_available_plugins()
         {
             using (var baseHost = new BaseHost())
             {
