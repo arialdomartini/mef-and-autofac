@@ -1,25 +1,37 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
+using Autofac;
+using Autofac.Integration.Mef;
 
 namespace PluginsWithMef
 {
-    public class BaseHost
+    public class BaseHost : IDisposable
     {
-        [ImportMany(typeof(IPlugin))] private IEnumerable<IPlugin> _plugins = new List<IPlugin>();
+        private IContainer _container;
+        private ILifetimeScope _scope;
 
-        public string SomeOperation() =>
-            string.Join("+", _plugins.Select(p => p.SomeOperation));
+        public string SomeOperation()
+        {
+            var plugins = _scope.Resolve<IEnumerable<IPlugin>>();
+            return string.Join("+", plugins.Select(p => p.SomeOperation));
+        }
 
         public void LoadPlugins()
         {
-            var catalog = new AggregateCatalog();
+            var builder = new ContainerBuilder();
+            builder.RegisterComposablePartCatalog(new DirectoryCatalog(@"..\..\..\..\Plugin1\bin\Debug\netcoreapp2.0\"));
+            builder.RegisterComposablePartCatalog(new DirectoryCatalog(@"..\..\..\..\Plugin2\bin\Debug\netcoreapp2.0\"));
+            _container = builder.Build();
+            _scope = _container.BeginLifetimeScope();
+        }
 
-            catalog.Catalogs.Add(new DirectoryCatalog(@"..\..\..\..\Plugin1\bin\Debug\netcoreapp2.0\"));
-            catalog.Catalogs.Add(new DirectoryCatalog(@"..\..\..\..\Plugin2\bin\Debug\netcoreapp2.0\"));
-
-            new CompositionContainer(catalog).ComposeParts(this);
+        public void Dispose()
+        {
+            _scope.Dispose();
+            _container.Dispose();
         }
     }
 

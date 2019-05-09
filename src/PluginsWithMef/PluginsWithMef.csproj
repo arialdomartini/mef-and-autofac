@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Autofac.Mef" Version="4.0.0" />
       <PackageReference Include="System.ComponentModel.Composition" Version="4.5.0" />
     </ItemGroup>
 

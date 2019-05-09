@@ -7,22 +7,17 @@ namespace PluginsWithMefTest
     public class BaseHostTest
     {
         [Fact]
-        public void no_plugins_case()
-        {
-            var baseHost = new BaseHost();
-            var result = baseHost.SomeOperation();
-
-            result.Should().Be("");
-        }
-
-        [Fact]
         public void with_plugins()
         {
-            var baseHost = new BaseHost();
-            baseHost.LoadPlugins();
-            var result = baseHost.SomeOperation();
+            using (var baseHost = new BaseHost())
+            {
+                baseHost.LoadPlugins();
 
-            result.Should().Be("plugin1+plugin2");
+                var result = baseHost.SomeOperation();
+
+                result.Should().Contain("plugin1");
+                result.Should().Contain("plugin2");
+            }
         }
     }
 }
