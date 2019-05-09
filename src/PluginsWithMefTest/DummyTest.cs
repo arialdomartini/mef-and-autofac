@@ -1,14 +1,18 @@
 ﻿using FluentAssertions;
+using PluginsWithMef;
 using Xunit;
 
 namespace PluginsWithMefTest
 {
-    public class DummyTest
+    public class BaseHostTest
     {
         [Fact]
-        public void should_pass()
+        public void no_plugins_case()
         {
-            "friends".Should().Be("friends");
+            var baseHost = new BaseHost();
+            var result = baseHost.SomeOperation();
+
+            result.Should().Be("base");
         }
     }
 }
