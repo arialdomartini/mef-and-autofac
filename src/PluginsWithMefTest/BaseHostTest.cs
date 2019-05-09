@@ -14,5 +14,15 @@ namespace PluginsWithMefTest
 
             result.Should().Be("base");
         }
+
+        [Fact]
+        public void with_plugins()
+        {
+            var baseHost = new BaseHost();
+            baseHost.LoadPlugins();
+            var result = baseHost.SomeOperation();
+
+            result.Should().Be("base+plugin1");
+        }
     }
 }
