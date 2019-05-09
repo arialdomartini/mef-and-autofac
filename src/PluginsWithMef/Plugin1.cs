@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.Composition;
 
-namespace Plugin1
+namespace PluginsWithMef
 {
-    public class Plugin1
+    [Export(typeof(IPlugin))]
+    public class Plugin1 : IPlugin
     {
-        [Export("ProviderName")] public string SomeOperation => "plugin1";
+        public string SomeOperation => "plugin1";
     }
 }

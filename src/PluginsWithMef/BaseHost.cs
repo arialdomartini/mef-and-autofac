@@ -6,20 +6,27 @@ namespace PluginsWithMef
 {
     public class BaseHost
     {
-        [Import("ProviderName")]
-        private string providerName;
+        [Import(typeof(IPlugin))] private IPlugin _plugin;
 
 
         public string SomeOperation()
         {
-            if (string.IsNullOrEmpty(providerName))
+            if (_plugin == null)
                 return "base";
-            return $"base+{providerName}";
+            return $"base+{_plugin.SomeOperation}";
         }
 
         public void LoadPlugins()
         {
-            new CompositionContainer(new AssemblyCatalog(Assembly.GetExecutingAssembly())).ComposeParts(this);
+            new CompositionContainer(
+                    new AssemblyCatalog(
+                        Assembly.GetExecutingAssembly()))
+                .ComposeParts(this);
         }
+    }
+
+    public interface IPlugin
+    {
+        string SomeOperation { get; }
     }
 }

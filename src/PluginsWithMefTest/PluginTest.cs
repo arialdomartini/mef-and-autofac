@@ -1,4 +1,5 @@
 using FluentAssertions;
+using PluginsWithMef;
 using Xunit;
 
 namespace PluginsWithMefTest
@@ -8,7 +9,7 @@ namespace PluginsWithMefTest
         [Fact]
         public void returns_a_string()
         {
-            var plugin1 = new Plugin1.Plugin1();
+            var plugin1 = new Plugin1();
 
             var result = plugin1.SomeOperation;
 
