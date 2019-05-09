@@ -5,12 +5,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Autofac.Mef" Version="4.0.0" />
+      <PackageReference Include="Autofac" Version="4.9.2" />
       <PackageReference Include="System.ComponentModel.Composition" Version="4.5.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\PluginsWithMef\PluginsWithMef.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Autofac, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da">
+        <HintPath>..\..\..\..\..\Users\arialdo.martini\.nuget\packages\autofac\3.3.1\lib\net40\Autofac.dll</HintPath>
+      </Reference>
     </ItemGroup>
 
 </Project>
