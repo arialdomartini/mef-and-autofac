@@ -12,7 +12,7 @@ namespace PluginsWithMefTest
             var baseHost = new BaseHost();
             var result = baseHost.SomeOperation();
 
-            result.Should().Be("base");
+            result.Should().Be("");
         }
 
         [Fact]
@@ -22,7 +22,7 @@ namespace PluginsWithMefTest
             baseHost.LoadPlugins();
             var result = baseHost.SomeOperation();
 
-            result.Should().Be("base+plugin1");
+            result.Should().Be("plugin1+plugin2");
         }
     }
 }
